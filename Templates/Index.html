@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML API - Fraud Detection</title>
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet'>
+    <style>
+     body {
+    background-color: #e9ecef; /* Light grey background */
+    font-family: 'Arimo', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login {
+    background-color: #ffffff; /* White background for the form */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 500px; /* Increased width for two columns */
+    text-align: center;
+    overflow-y: auto; /* Allow scrolling if content exceeds height */
+    max-height: 90vh; /* Limit max height to avoid overflow */
+}
+
+h1 {
+    font-family: 'Pacifico', cursive;
+    color: #343a40; /* Dark grey for the title */
+}
+
+.input-form {
+    display: flex;
+    flex-direction: column; /* Stack the columns vertically */
+}
+
+.input-container {
+    display: flex; /* Use flexbox to arrange columns side by side */
+}
+
+.column {
+    flex: 1; /* Each column takes equal space */
+    padding: 0 10px; /* Space between columns */
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ced4da; /* Light grey border */
+    border-radius: 5px;
+    box-sizing: border-box; /* Include padding and border in total width */
+}
+
+input[type="text"]:focus {
+    border-color: #80bdff; /* Focused border color */
+    outline: none; /* Remove outline */
+}
+
+.btn {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition */
+    width: 100%;
+    margin-top: 10px; /* Space between button and inputs */
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+.prediction {
+    margin-top: 20px;
+    color: #28a745; /* Green color for prediction results */
+    font-weight: bold;
+}
+
+
+
+    </style>
+</head>
+  <body>
+      <div class="login">
+          <h1>Fraud Detection</h1>
+          <form action="{{ url_for('predict') }}" method="post" class="input-form">
+              <div class="input-container">
+                  <div class="column">
+                      <input type="text" name="time" placeholder="Time" required="required" />
+                      {% for i in range(1, 16) %}
+                          <input type="text" name="v{{ i }}" placeholder="v{{ i }}" required="required" />
+                      {% endfor %}
+                  </div>
+                  <div class="column">
+                      {% for i in range(16, 29) %}
+                          <input type="text" name="v{{ i }}" placeholder="v{{ i }}" required="required" />
+                      {% endfor %}
+                      <input type="text" name="amount" placeholder="Amount" required="required" />
+                  </div>
+              </div>
+              <button type="submit" class="btn">Detect Fraud</button>
+          </form>
+          <br>
+          <div class="prediction">{{ prediction_text }}</div>
+      </div>
+  </body>
+  </html>
+
